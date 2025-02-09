@@ -1,0 +1,268 @@
+/* Основной стиль для сайта */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Стили для заголовка */
+#site-title {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 36px;
+}
+
+/* Стили для параграфа */
+p {
+    text-align: center;
+    font-size: 18px;
+}
+
+/* Контейнер для начальной секции */
+.intro {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    background-color: #000; /* Можно изменить на любой цвет */
+}
+.scroll-indicator{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* Контейнер для стрелки и текста */
+.scroll-indicator p {
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 10px;
+    font-weight: 600;
+    
+}
+
+.arrow {
+   
+    border: solid 5px transparent;
+ 
+    border-radius: 50%;
+    margin-top: 10px;
+    animation: bounce 1.5s ease-in-out infinite;
+ 
+}
+.arrow img{
+    width: 50px;
+    height: 50px;
+    filter: invert();
+}
+/* Анимация для стрелки, движение вверх и вниз */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(20px);
+    }
+}
+
+/* Контейнер для блоков слов */
+.words-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+/* Стиль для каждого блока с изображением и текстом */
+.word-block {
+    width: 200px;
+    text-align: center;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    opacity: 0;  /* Сначала скрыто */
+    transform: translateY(50px); /* Начальная позиция для анимации */
+    transition: transform 0.5s ease, opacity 1s ease; /* Плавное появление */
+}
+
+/* Эффект на изображение */
+.word-block img {
+    width: 100%;
+    height: auto;
+}
+
+/* Стиль текста внутри блока */
+.word-block p {
+    background-color: #333;
+    margin: 0;
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+}
+
+/* Позиционирование блоков с левой и правой стороны */
+.word-block.left {
+    transform: translateX(-20px);
+}
+
+.word-block.right {
+    transform: translateX(20px);
+}
+
+/* Класс для плавного появления блока */
+.word-block.visible {
+    opacity: 1;
+    transform: translateY(0); /* Возвращаем блок в исходное положение */
+}
+
+/* Элемент, который исчезает (по умолчанию) */
+.word-block {
+    opacity: 0;
+    transform: translateY(50px); /* Начальная позиция для анимации */
+    transition: transform 0.5s ease, opacity 1s ease; /* Плавное появление и исчезновение */
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .word-block {
+        width: 100%;
+    }
+}
+/* Фоновый коллаж для зоны сердца */
+.heart-section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    overflow: hidden;
+}
+
+/* Контейнер для фона */
+/* Фоновый контейнер */
+.heart-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 2px;
+    z-index: -1;
+}
+
+/* Ячейки сетки */
+.heart-background div {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 1s ease-in-out;
+}
+
+
+/* Все изображения внутри фона */
+.heart-background img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+/* Видимое изображение */
+.heart-background img.active {
+    opacity: 1;
+}
+
+/* Сердце */
+.heart {
+    font-size: 100px;
+    opacity: 0;
+    transform: scale(0.5);
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0));
+    transition: opacity 1s ease, transform 0.5s ease, filter 1s ease;
+}
+
+/* Остальные стили остаются без изменений */
+
+/* Текст под сердцем (анимация печати) */
+.love-text {
+    font-size: 32px;
+    font-weight: bold;
+    color: #fff;
+    margin-top: 10px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    opacity: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 40px;
+    border-right: 2px solid white;
+    animation: blinkCursor 0.8s infinite;
+}
+
+/* Анимация курсора */
+@keyframes blinkCursor {
+    50% {
+        border-color: transparent;
+    }
+}
+
+/* Маленькая надпись внизу (в самом низу страницы) */
+.footer-text {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+/* Класс для появления секции */
+.heart-section.visible {
+    opacity: 1;
+}
+
+/* Класс для анимации сердца */
+.heart.visible {
+    opacity: 1;
+    transform: scale(1);
+    animation: heartbeat 1s infinite alternate;
+    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8));
+}
+
+/* Класс для плавного появления текста */
+.love-text.visible,
+.footer-text.visible {
+    opacity: 1;
+}
+
+/* Анимация биения сердца */
+@keyframes heartbeat {
+    0% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8));
+    }
+    50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 30px rgba(255, 0, 0, 1));
+    }
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8));
+    }
+}
+
