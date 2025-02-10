@@ -1,7 +1,7 @@
 /* Основной стиль для сайта */
 body {
     font-family: Arial, sans-serif;
-    background-color: #121212;
+    background-color: #000000;
     color: #fff;
     margin: 0;
     padding: 0;
@@ -73,10 +73,17 @@ p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 50px;
     margin-top: 40px;
+    background: black;
+    
 }
-
+.section{
+    width: 75%;
+    display: flex;
+    gap: 50px;
+    flex-direction: column;
+}
 /* Стиль для каждого блока с изображением и текстом */
 .word-block {
     width: 200px;
@@ -97,11 +104,13 @@ p {
 
 /* Стиль текста внутри блока */
 .word-block p {
-    background-color: #333;
+    background-color: #222222;
     margin: 0;
     padding: 10px;
-    font-size: 16px;
+    font-size: 20px;
     color: #fff;
+    margin-top: -5px;
+    font-family: math;
 }
 
 /* Позиционирование блоков с левой и правой стороны */
@@ -144,6 +153,7 @@ p {
     opacity: 0;
     transition: opacity 1.5s ease;
     overflow: hidden;
+ 
 }
 
 /* Контейнер для фона */
@@ -188,7 +198,7 @@ p {
 
 /* Сердце */
 .heart {
-    font-size: 100px;
+    font-size: 150px;
     opacity: 0;
     transform: scale(0.5);
     filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0));
@@ -241,8 +251,105 @@ p {
     opacity: 1;
     transform: scale(1);
     animation: heartbeat 1s infinite alternate;
-    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8));
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.08));
 }
+
+.heart-card{
+    width: 80%;
+    height: 300px;
+    background: #000000b9;
+    border-radius: 30px;
+}
+.stih-section {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 25px;
+    background: #000;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(200, 200, 200, 0.4);
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.8;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.5s ease-in-out;
+}
+
+/* Свечение рамки при наведении */
+.stih-section:hover {
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
+}
+
+/* Оформление текста */
+.stih-section span {
+    display: block;
+    margin-bottom: 20px;
+    padding: 12px;
+    border-left: 4px solid #888888;
+    background: rgba(80, 80, 80, 0.2);
+    font-style: italic;
+    text-shadow: 0 0 10px rgba(200, 200, 200, 0.7);
+    letter-spacing: 1px;
+}
+
+/* Эмодзи-декор (сердечки, романтические символы) */
+.stih-section::before,
+.stih-section::after {
+    content: "❤️";
+    font-size: 45px;
+    position: absolute;
+    opacity: 0.8;
+    filter: grayscale(100%) brightness(200%);
+    animation: floatHeart 4s infinite alternate ease-in-out;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+.stih-section::before {
+    top: -15px;
+    left: -15px;
+}
+
+.stih-section::after {
+    bottom: -15px;
+    right: -15px;
+}
+
+/* Второй слой эмодзи */
+.stih-section .emoji-decor {
+    position: absolute;
+    font-size: 40px;
+    opacity: 0.7;
+    filter: grayscale(100%) brightness(200%);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+    animation: floatHeart 5s infinite alternate ease-in-out;
+}
+
+.stih-section .emoji-top-right {
+    top: -20px;
+    right: 30px;
+    content: "💌";
+}
+
+.stih-section .emoji-bottom-left {
+    bottom: -20px;
+    left: 30px;
+    content: "💞";
+}
+
+/* Анимация движения эмодзи */
+@keyframes floatHeart {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        transform: translateY(15px) rotate(5deg);
+    }
+}
+
 
 /* Класс для плавного появления текста */
 .love-text.visible,
@@ -266,3 +373,18 @@ p {
     }
 }
 
+
+
+.wrap {
+    height: 50px;
+}
+.type-wrap{
+    font-size: larger;
+    font-weight: 500;
+    height: 50px;
+}
+.type-wrap span{
+ font-size: 50px;
+ font-weight: 900;
+ font-family: mistral ;
+}

@@ -64,8 +64,7 @@ function checkVisibility() {
 // Добавляем событие прокрутки, чтобы проверять видимость при прокрутке
 window.addEventListener('scroll', checkVisibility);
 
-// Выполняем проверку видимости сразу, чтобы элементы появлялись, если они уже видимы
-checkVisibility();
+// Анимация появления сердца и текста
 document.addEventListener("scroll", function () {
     let heartSection = document.querySelector(".heart-section");
     let heart = document.querySelector(".heart");
@@ -84,18 +83,18 @@ document.addEventListener("scroll", function () {
     }
 });
 
-// Массив фраз "Я люблю тебя" на 10 языках
+// Печатающийся текст
 const lovePhrases = [
-    "Я ЛЮБЛЮ ТЕБЯ ♥️",  // Русский
-    "I LOVE YOU ♥️",     // Английский
-    "JE T'AIME ♥️",      // Французский
-    "TE AMO ♥️",        // Испанский
-    "ICH LIEBE DICH ♥️", // Немецкий
-    "TI AMO ♥️",        // Итальянский
-    "我爱你 ♥️",         // Китайский
-    "愛してる ♥️",       // Японский
-    "사랑해 ♥️",        // Корейский
-    "EU TE AMO ♥️"      // Португальский
+    "Я ЛЮБЛЮ ТЕБЯ ♥️",
+    "I LOVE YOU ♥️",
+    "JE T'AIME ♥️",
+    "TE AMO ♥️",
+    "ICH LIEBE DICH ♥️",
+    "TI AMO ♥️",
+    "我爱你 ♥️",
+    "愛してる ♥️",
+    "사랑해 ♥️",
+    "EU TE AMO ♥️"
 ];
 
 let loveText = document.querySelector(".love-text");
@@ -103,10 +102,9 @@ let phraseIndex = 0;
 let charIndex = 0;
 let isDeleting = false;
 
-// Функция печати текста с эффектом "ручного письма"
 function startTypingEffect() {
     let currentPhrase = lovePhrases[phraseIndex];
-    
+
     if (isDeleting) {
         loveText.textContent = currentPhrase.substring(0, charIndex - 1);
         charIndex--;
@@ -116,13 +114,13 @@ function startTypingEffect() {
     }
 
     if (!isDeleting && charIndex === currentPhrase.length) {
-        setTimeout(() => (isDeleting = true), 1500);
+        setTimeout(() => (isDeleting = true), 2000);
     } else if (isDeleting && charIndex === 0) {
         isDeleting = false;
         phraseIndex = (phraseIndex + 1) % lovePhrases.length;
     }
 
-    let speed = isDeleting ? 50 : 100; // Скорость печати/стирания
+    let speed = isDeleting ? 50 : 150;
     setTimeout(startTypingEffect, speed);
 }
 
@@ -133,60 +131,102 @@ function startTypingEffect() {
 
 
 
-
 document.addEventListener("DOMContentLoaded", async function () {
-    const folderPath = "Assets/collage/";  // Укажи путь к папке с фото
+    const folderPath = "Assets/collage/"; // Путь к папке с фото
     const gridSize = 5 * 5; // 5x5 сетка
     const container = document.querySelector(".heart-background");
+    
+    let images = [
+        "photo1.jpg", "photo2.jpg", "photo3.jpg", "photo4.jpg", "photo5.jpg",
+        "photo6.jpg", "photo7.jpg", "photo8.jpg", "photo9.jpg", "photo10.jpg",
+        "photo11.jpg", "photo12.jpg", "photo13.jpg", "photo14.jpg", "photo15.jpg",
+        "photo16.jpg", "photo17.jpg", "photo18.jpg", "photo19.jpg", "photo20.jpg",
+        "photo21.jpg", "photo22.jpg", "photo23.jpg", "photo24.jpg", "photo25.jpg"
+    ];
 
-    // Функция для получения списка изображений из папки (зависит от сервера)
-    async function fetchImages() {
-        let images = [];
-        try {
-            // Заглушка (если нельзя получить список файлов автоматически)
-            images = [
-                "photo1.jpg", "photo2.jpg", "photo3.jpg", "photo4.jpg", "photo5.jpg",
-                "photo6.jpg", "photo7.jpg", "photo8.jpg", "photo9.jpg", "photo10.jpg",
-                "photo11.jpg", "photo12.jpg", "photo13.jpg", "photo14.jpg", "photo15.jpg",
-                "photo16.jpg", "photo17.jpg", "photo18.jpg", "photo19.jpg", "photo20.jpg",
-                "photo21.jpg", "photo22.jpg", "photo23.jpg", "photo24.jpg", "photo25.jpg"
-            ];
-        } catch (error) {
-            console.error("Ошибка загрузки фото:", error);
-        }
-        return images.map(img => folderPath + img);
-    }
+    images = images.map(img => folderPath + img);
 
-    // Функция создания сетки
-    async function createGrid() {
-        const images = await fetchImages();
-        if (images.length === 0) return;
-
-        for (let i = 0; i < gridSize; i++) {
-            const cell = document.createElement("div");
-            const randomImage = images[Math.floor(Math.random() * images.length)];
-            cell.style.backgroundImage = `url('${randomImage}')`;
-            container.appendChild(cell);
+    // Перемешивает массив случайным образом
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
         }
     }
 
-    // Функция случайной смены фото в сетке
-    async function changeRandomImage() {
-        const images = await fetchImages();
-        if (images.length === 0) return;
+    // Проверяет, нет ли повторяющихся изображений рядом
+    function isValidPlacement(grid, row, col, img) {
+        const index = row * 5 + col;
+        
+        // Проверяем, чтобы изображение не совпадало с левым и верхним соседями
+        if (col > 0 && grid[index - 1] === img) return false; // Левый сосед
+        if (row > 0 && grid[index - 5] === img) return false; // Верхний сосед
 
+        return true;
+    }
+
+    // Создаёт сетку без повторяющихся соседей
+    function createGrid() {
+        shuffleArray(images);
+        let grid = new Array(gridSize).fill(null);
+        let usedImages = [...images]; // Копия массива изображений
+
+        container.innerHTML = ''; // Очищаем контейнер
+
+        for (let row = 0; row < 5; row++) {
+            for (let col = 0; col < 5; col++) {
+                let img = null;
+                let attempts = 0;
+
+                do {
+                    img = usedImages[Math.floor(Math.random() * usedImages.length)];
+                    attempts++;
+                } while (!isValidPlacement(grid, row, col, img) && attempts < 10);
+
+                grid[row * 5 + col] = img;
+                usedImages = usedImages.filter(i => i !== img); // Убираем использованное фото
+
+                const cell = document.createElement("div");
+                cell.style.backgroundImage = `url('${img}')`;
+                container.appendChild(cell);
+            }
+        }
+    }
+
+    // Меняет случайное фото в сетке, избегая повторений рядом
+    function changeRandomImage() {
+        shuffleArray(images);
         const cells = document.querySelectorAll(".heart-background div");
-        const randomCell = cells[Math.floor(Math.random() * cells.length)];
-        const newImage = images[Math.floor(Math.random() * images.length)];
+        let randomIndex;
+        let newImage;
+        let attempts = 0;
 
-        randomCell.style.opacity = 0;
+        do {
+            randomIndex = Math.floor(Math.random() * cells.length);
+            newImage = images[Math.floor(Math.random() * images.length)];
+            attempts++;
+        } while (
+            (randomIndex % 5 > 0 && cells[randomIndex - 1].style.backgroundImage.includes(newImage)) || // Левый сосед
+            (randomIndex % 5 < 4 && cells[randomIndex + 1]?.style.backgroundImage.includes(newImage)) || // Правый сосед
+            (randomIndex > 4 && cells[randomIndex - 5].style.backgroundImage.includes(newImage)) || // Верхний сосед
+            (randomIndex < 20 && cells[randomIndex + 5]?.style.backgroundImage.includes(newImage)) && // Нижний сосед
+            attempts < 10
+        );
+
+        cells[randomIndex].style.opacity = "0";
+
         setTimeout(() => {
-            randomCell.style.backgroundImage = `url('${newImage}')`;
-            randomCell.style.opacity = 1;
+            cells[randomIndex].style.backgroundImage = `url('${newImage}')`;
+            cells[randomIndex].style.opacity = "1";
         }, 500);
     }
 
-    // Создаём сетку и запускаем смену фото
-    await createGrid();
-    setInterval(changeRandomImage, 10000); // Меняем фото каждые 10 секунд
+    // Запуск
+    createGrid();
+    setInterval(changeRandomImage, 1000); // Меняем фото каждые 10 секунд
 });
+
+
+
+
+
