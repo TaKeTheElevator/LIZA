@@ -1,3 +1,9 @@
+@font-face {
+ 
+    font-family: "Mistral"; 
+    src: url("Mistral\ Regular.ttf") format("truetype"); 
+  } 
+
 /* Основной стиль для сайта */
 body {
     font-family: Arial, sans-serif;
@@ -386,5 +392,5 @@ p {
 .type-wrap span{
  font-size: 50px;
  font-weight: 900;
- font-family: mistral ;
+ font-family: Mistral ;
 }
