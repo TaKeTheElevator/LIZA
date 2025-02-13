@@ -239,13 +239,13 @@ p {
 
 /* Маленькая надпись внизу (в самом низу страницы) */
 .footer-text {
-    position: fixed;
+    position: absolute;
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 18px;
+    font-size: 20px;
     color: rgba(255, 255, 255, 0.7);
-    opacity: 0;
+    bottom: -6460px;
     transition: opacity 1s ease;
 }
 
