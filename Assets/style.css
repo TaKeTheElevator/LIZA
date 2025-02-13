@@ -89,10 +89,11 @@ p {
     display: flex;
     gap: 50px;
     flex-direction: column;
+    align-items: center;
 }
 /* Стиль для каждого блока с изображением и текстом */
 .word-block {
-    width: 200px;
+    width: 35%;
     text-align: center;
     border-radius: 8px;
     overflow: hidden;
@@ -113,7 +114,7 @@ p {
     background-color: #222222;
     margin: 0;
     padding: 10px;
-    font-size: 20px;
+    font-size: 120%;
     color: #fff;
     margin-top: -5px;
     font-family: math;
@@ -159,6 +160,7 @@ p {
     opacity: 0;
     transition: opacity 1.5s ease;
     overflow: hidden;
+    background:#000000a6 ;
  
 }
 
@@ -171,8 +173,8 @@ p {
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
     gap: 2px;
     z-index: -1;
 }
@@ -263,7 +265,7 @@ p {
 .heart-card{
     width: 80%;
     height: 300px;
-    background: #000000b9;
+    /* background: #000000b9; */
     border-radius: 30px;
 }
 .stih-section {
@@ -393,4 +395,83 @@ p {
  font-size: 50px;
  font-weight: 900;
  font-family: Mistral ;
+}
+
+
+.floating-hearts-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.floating-heart {
+    position: absolute;
+    color: rgb(39, 0, 0);
+    font-size: 20px;
+    opacity: 0.8;
+    animation: float-down linear infinite;
+}
+
+@keyframes float-down {
+    0% {
+        transform: translateY(-10vh) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) scale(0.8);
+        opacity: 0;
+    }
+}
+
+
+.music-container {
+    position: absolute;
+    top: 350px; /* Подними выше, если надо */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.music-btn {
+    width: 60px;
+    height: 60px;
+    background: url('/Assets/img/play.png') no-repeat center center;
+    background-size: contain;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    filter: invert(1);
+    opacity: 0.8;
+    transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.music-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+/* Анимация включения музыки */
+.music-btn.playing {
+    background: url('/Assets/img/pause.png') no-repeat center center;
+    background-size: contain;
+    animation: pulse 1.2s infinite alternate ease-in-out;
+}
+
+/* Эффект пульсации */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    100% {
+        transform: scale(1.15);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+    }
 }

@@ -130,23 +130,23 @@ function startTypingEffect() {
 
 
 
-
-document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", function () {
     const folderPath = "Assets/collage/"; // Путь к папке с фото
-    const gridSize = 5 * 5; // 5x5 сетка
+    const gridWidth = 3; // 3 в ширину
+    const gridHeight = 4; // 4 в высоту
+    const gridSize = gridWidth * gridHeight; // 12 фото в сетке
     const container = document.querySelector(".heart-background");
-    
+
     let images = [
-        "photo1.jpg", "photo2.jpg", "photo3.jpg", "photo4.jpg", "photo5.jpg",
-        "photo6.jpg", "photo7.jpg", "photo8.jpg", "photo9.jpg", "photo10.jpg",
-        "photo11.jpg", "photo12.jpg", "photo13.jpg", "photo14.jpg", "photo15.jpg",
-        "photo16.jpg", "photo17.jpg", "photo18.jpg", "photo19.jpg", "photo20.jpg",
-        "photo21.jpg", "photo22.jpg", "photo23.jpg", "photo24.jpg", "photo25.jpg"
+        "photo1.jpg", "photo2.jpg", "photo3.jpg", "photo4.jpg",
+        "photo5.jpg", "photo6.jpg", "photo7.jpg", "photo8.jpg",
+        "photo9.jpg", "photo10.jpg", "photo11.jpg", "photo12.jpg",
+        "photo13.jpg", "photo14.jpg", "photo15.jpg", "photo16.jpg",
+        "photo17.jpg", "photo18.jpg", "photo19.jpg", "photo20.jpg"
     ];
 
     images = images.map(img => folderPath + img);
 
-    // Перемешивает массив случайным образом
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -154,37 +154,33 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-    // Проверяет, нет ли повторяющихся изображений рядом
     function isValidPlacement(grid, row, col, img) {
-        const index = row * 5 + col;
-        
-        // Проверяем, чтобы изображение не совпадало с левым и верхним соседями
-        if (col > 0 && grid[index - 1] === img) return false; // Левый сосед
-        if (row > 0 && grid[index - 5] === img) return false; // Верхний сосед
+        const index = row * gridWidth + col;
 
+        if (col > 0 && grid[index - 1] === img) return false; // Левый сосед
+        if (row > 0 && grid[index - gridWidth] === img) return false; // Верхний сосед
         return true;
     }
 
-    // Создаёт сетку без повторяющихся соседей
     function createGrid() {
         shuffleArray(images);
         let grid = new Array(gridSize).fill(null);
-        let usedImages = [...images]; // Копия массива изображений
+        let availableImages = [...images];
 
-        container.innerHTML = ''; // Очищаем контейнер
+        container.innerHTML = '';
 
-        for (let row = 0; row < 5; row++) {
-            for (let col = 0; col < 5; col++) {
+        for (let row = 0; row < gridHeight; row++) {
+            for (let col = 0; col < gridWidth; col++) {
                 let img = null;
                 let attempts = 0;
 
                 do {
-                    img = usedImages[Math.floor(Math.random() * usedImages.length)];
+                    img = availableImages[Math.floor(Math.random() * availableImages.length)];
                     attempts++;
                 } while (!isValidPlacement(grid, row, col, img) && attempts < 10);
 
-                grid[row * 5 + col] = img;
-                usedImages = usedImages.filter(i => i !== img); // Убираем использованное фото
+                grid[row * gridWidth + col] = img;
+                availableImages = availableImages.filter(i => i !== img); // Убираем использованное фото
 
                 const cell = document.createElement("div");
                 cell.style.backgroundImage = `url('${img}')`;
@@ -193,7 +189,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-    // Меняет случайное фото в сетке, избегая повторений рядом
     function changeRandomImage() {
         shuffleArray(images);
         const cells = document.querySelectorAll(".heart-background div");
@@ -206,11 +201,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             newImage = images[Math.floor(Math.random() * images.length)];
             attempts++;
         } while (
-            (randomIndex % 5 > 0 && cells[randomIndex - 1].style.backgroundImage.includes(newImage)) || // Левый сосед
-            (randomIndex % 5 < 4 && cells[randomIndex + 1]?.style.backgroundImage.includes(newImage)) || // Правый сосед
-            (randomIndex > 4 && cells[randomIndex - 5].style.backgroundImage.includes(newImage)) || // Верхний сосед
-            (randomIndex < 20 && cells[randomIndex + 5]?.style.backgroundImage.includes(newImage)) && // Нижний сосед
-            attempts < 10
+            [...cells].some(cell => cell.style.backgroundImage.includes(newImage)) && attempts < 10
         );
 
         cells[randomIndex].style.opacity = "0";
@@ -221,12 +212,73 @@ document.addEventListener("DOMContentLoaded", async function () {
         }, 500);
     }
 
-    // Запуск
     createGrid();
-    setInterval(changeRandomImage, 1000); // Меняем фото каждые 10 секунд
+    setInterval(changeRandomImage, 1000);
 });
 
 
 
+document.addEventListener("DOMContentLoaded", function () {
+    const heartContainer = document.createElement("div");
+    heartContainer.classList.add("floating-hearts-container");
+    document.body.appendChild(heartContainer);
 
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("floating-heart");
+        heart.innerHTML = "❤️"; // Можно заменить на 💖, 💘, 💞
+
+        // Случайное положение по горизонтали
+        heart.style.left = Math.random() * 100 + "vw";
+
+        // Случайный размер сердечка
+        let size = Math.random() * 20 + 10; // 10px - 30px
+        heart.style.fontSize = size + "px";
+
+        // Случайная продолжительность анимации
+        let duration = Math.random() * 3 + 2; // 2 - 5 секунд
+        heart.style.animationDuration = duration + "s";
+
+        // Добавляем в контейнер
+        heartContainer.appendChild(heart);
+
+        // Удаляем после завершения анимации
+        setTimeout(() => {
+            heart.remove();
+        }, duration * 1000);
+    }
+
+    // Создаем сердечки каждую секунду
+    setInterval(createHeart, 500);
+});
+document.addEventListener("DOMContentLoaded", () => {
+    const musicBtn = document.getElementById("play-music");
+    const bgMusic = document.getElementById("bg-music");
+
+    // Функция обновления кнопки
+    function updateMusicButton() {
+        if (!bgMusic.paused) {
+            musicBtn.classList.add("playing");
+        } else {
+            musicBtn.classList.remove("playing");
+        }
+    }
+
+    // Проверяем состояние при загрузке страницы
+    updateMusicButton();
+
+    // При клике на кнопку включаем/выключаем музыку
+    musicBtn.addEventListener("click", () => {
+        if (bgMusic.paused) {
+            bgMusic.play();
+        } else {
+            bgMusic.pause();
+        }
+        updateMusicButton();
+    });
+
+    // Если музыка началась/остановилась без нажатия кнопки (например, автозапуск)
+    bgMusic.addEventListener("play", updateMusicButton);
+    bgMusic.addEventListener("pause", updateMusicButton);
+});
 
